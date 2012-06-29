@@ -7,7 +7,7 @@ Simple Logback plugin to send data to Scribe Server
 
 `TSocket` and `TIOStreamTransport` imports `org.slf4j.Logger` and `org.slf4j.LoggerFactory` so, it's not possible to load them in default `logback.xml` .
 
-So, creating a new file like: `scribe-logback.xml` and loading it explicitly as second step configuration is recommended as mentioned [here](http://www.slf4j.org/codes.html#substituteLogger)
+So, creating a new file like: `scribe-logback.xml` and loading it explicitly as second step configuration is recommended as mentioned [here](http://www.slf4j.org/codes.html#substituteLogger) and [here](http://permalink.gmane.org/gmane.comp.java.slf4j.user/1143)
 
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
