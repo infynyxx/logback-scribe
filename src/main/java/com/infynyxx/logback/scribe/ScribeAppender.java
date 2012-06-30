@@ -1,5 +1,6 @@
 package com.infynyxx.logback.scribe;
 
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.core.AppenderBase;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.transport.TFramedTransport;
@@ -119,7 +120,7 @@ public class ScribeAppender<E> extends AppenderBase<E> {
         if (splitted.length != 2) {
 
             throw new IllegalArgumentException("additionalField must be of the format key:value, where key is the MDC "
-                    + "key, and value is the GELF field name. But found '" + keyValue + "' instead.");
+                    + "key, and value is the scribe field name. But found '" + keyValue + "' instead.");
         }
 
         additionalFields.put(splitted[0], splitted[1]);
