@@ -27,7 +27,7 @@ public class ScribeAppender<E> extends AppenderBase<E> {
     // hidden fields (not configurable)
     private AppenderExecutor<E> appenderExecutor;
 
-    private TFramedTransport transport;
+    private TFramedTransport transport = null;
 
     private void initialize() {
 
@@ -43,8 +43,6 @@ public class ScribeAppender<E> extends AppenderBase<E> {
         } catch (Exception e) {
             throw new RuntimeException("Error initializing appender appenderExecutor", e);
         }
-
-
     }
 
     @Override
@@ -52,8 +50,7 @@ public class ScribeAppender<E> extends AppenderBase<E> {
         try {
             appenderExecutor.append(eventObject);
         } catch (RuntimeException e) {
-            System.out.println(getStringStackTrace(e));
-            //this.addError("Error occurred: ", e);
+            this.addError("Error occurred: ", e);
             throw e;
         }
     }
@@ -62,6 +59,14 @@ public class ScribeAppender<E> extends AppenderBase<E> {
     public void start() {
         super.start();
         initialize();
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        if (transport != null) {
+            transport.close();
+        }
     }
 
     //////////////////////////
@@ -125,10 +130,5 @@ public class ScribeAppender<E> extends AppenderBase<E> {
         PrintWriter printWriter = new PrintWriter(result);
         e.printStackTrace(printWriter);
         return result.toString();
-    }
-
-    @Override
-    public void stop() {
-        transport.close();
     }
 }
