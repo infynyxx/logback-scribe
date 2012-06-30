@@ -4,6 +4,9 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.classic.spi.StackTraceElementProxy;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -23,7 +26,7 @@ public class ScribeConverter<E> {
     public String getMessage(E logEvent) {
         ILoggingEvent eventObject = (ILoggingEvent) logEvent;
 
-        String message = eventObject.getMessage();
+        String message = String.format("<%s> %s [%s] %s %s - %s", getHostName(), new Date(eventObject.getTimeStamp()), eventObject.getLevel(), eventObject.getThreadName(), eventObject.getLoggerContextVO(), eventObject.getMessage());
 
         // Format up the stack trace
         IThrowableProxy proxy = eventObject.getThrowableProxy();
@@ -41,5 +44,14 @@ public class ScribeConverter<E> {
             str.append(element.getSTEAsString());
         }
         return str.toString();
+    }
+
+    private static String getHostName() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            return "UNKNOWN_HOST";
+        }
+
     }
 }
