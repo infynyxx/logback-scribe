@@ -1,7 +1,7 @@
 logback-scribe
 ==============
 
-Simple Logback plugin to send data to Scribe Server
+Simple Logback plugin to send data to Scribe Server inspired by [logback-gelf](https://github.com/Moocar/logback-gelf)
 
 ### Using with logback.xml
 
