@@ -31,13 +31,14 @@ public class ScribeAppender<E> extends AppenderBase<E> {
     private TFramedTransport transport = null;
 
     private void initialize() {
-
         try {
+            addInfo(String.format("Connecting to Scribe Server: %s:%d with category: %s", scribeHost, scribePort, category));
             TSocket socket = new TSocket(scribeHost, scribePort);
             transport = new TFramedTransport(socket);
             TBinaryProtocol protocol = new TBinaryProtocol(transport, false, false);
             Client client = new Client(protocol, protocol);
 
+            addInfo("Opening transport socket");
             transport.open();
             ScribeConverter scribeConverter = new ScribeConverter(facility, additionalFields, scribeHost);
             appenderExecutor = new AppenderExecutor<E>(client, scribeConverter, category);
